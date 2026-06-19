@@ -18,6 +18,7 @@ I've been training in the gym for a few years and have recently gotten into Hyro
 - **Running time shows the most variability** between athletes and has the strongest correlation with total finish time.
 - **Gender shows minimal difference** in average running performance in this dataset.
 - **Running performance declines gradually with age**, from ~2674s (30-34 group) to ~2904s (55-59 group) — though the trend becomes statistically unreliable beyond age 60-64 due to small sample sizes.
+- **Work Times degrade twice as fast compared to running**,  work time increased ~17.8% from the 30-34 to 55-59 age groups, compared to an 8.6% increase in running time. This suggests strength/power-based movements degrade faster with age than aerobic endurance
 
 ## What's in this repo
 
