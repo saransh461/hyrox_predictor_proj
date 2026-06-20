@@ -79,6 +79,14 @@ the run/work balance itself — both fast-finishing groups (Balanced and
 Runner-Leaning) share low station_consistency, while the slow group is 
 defined primarily by unevenness, not a particular run/station weakness.
 
+## App design note: simplified consistency proxy
+
+The full `station_consistency` feature (std across 8 stations) requires 8 
+individual inputs, which adds friction for app users. Tested a simplified 
+proxy — `slowest_station - fastest_station` (2 inputs) — and found it 
+correlates 0.96 with the full measure, making it a safe simplification 
+for the app's lightweight input design.
+
 ## What's in this repo
 
 ```
