@@ -4,10 +4,15 @@ import numpy as np
 import pandas as pd
 
 # Load the saved models - these were trained in the notebook, not retrained here
-model = joblib.load('model_a_lite.pkl')
-kmeans = joblib.load('kmeans_model.pkl')
-scaler = joblib.load('scaler.pkl')
-all_times = pd.read_csv('all_finish_times.csv')['total_time_secs']
+import os
+
+# Get the folder this script itself lives in, regardless of working directory
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+model = joblib.load(os.path.join(BASE_DIR, 'model_a_lite.pkl'))
+kmeans = joblib.load(os.path.join(BASE_DIR, 'kmeans_model.pkl'))
+scaler = joblib.load(os.path.join(BASE_DIR, 'scaler.pkl'))
+all_times = pd.read_csv(os.path.join(BASE_DIR, 'all_finish_times.csv'))['total_time_secs']
 
 st.title("🏋️ Hyrox Performance Predictor")
 st.caption("Trained on 90,000+ real Hyrox race results")
