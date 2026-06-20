@@ -19,10 +19,16 @@ I've been training in the gym for a few years and have recently gotten into Hyro
 - **Gender shows minimal difference** in average running performance in this dataset.
 - **Running performance declines gradually with age**, from ~2674s (30-34 group) to ~2904s (55-59 group) — though the trend becomes statistically unreliable beyond age 60-64 due to small sample sizes.
 - **Work Times degrade twice as fast compared to running**,  work time increased ~17.8% from the 30-34 to 55-59 age groups, compared to an 8.6% increase in running time. This suggests strength/power-based movements degrade faster with age than aerobic endurance
+- **Station consistency is a strong predictor of overall performance** — 
+  athletes with more even performance across all 8 stations tend to finish 
+  faster overall (r ≈ 0.71), more strongly than most other individual factors examined.
+
 ## Features engineered
 
 - `run_to_work_ratio` — relative balance between running speed and station performance
 - `pacing_slope` — measures whether an athlete slows down over the course of the race (fatigue)
+- `station_consistency` — standard deviation across the 8 station times for each athlete; measures how evenly they perform across all stations vs having major weak points. Strongest engineered feature so far — correlates ~0.71 with total finish time.
+
 ## What's in this repo
 
 ```
