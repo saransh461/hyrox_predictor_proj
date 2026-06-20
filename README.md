@@ -2,7 +2,7 @@
 
 > Analyzing 90,000+ Hyrox race results to understand what actually drives performance, and building models and an interactive app to predict finish times and athlete archetypes.
 
-**[Try the live app →](#)** *(add link once deployed)*
+**[Try the live app →](#)** *(https://hyroxpredictorproj-ydpx98yu6tlrfg5czeyrzf.streamlit.app)*
 
 ## Why this project
 
