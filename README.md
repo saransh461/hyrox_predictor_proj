@@ -61,6 +61,24 @@ Switching from Linear Regression to XGBoost reduced overall MAE by ~9% (329s →
   inputs not present in this dataset — e.g., training history, prior race 
   times, or strength benchmarks.
 
+  ## Athlete archetypes (K-means clustering)
+
+Clustered athletes on `run_to_work_ratio` and `station_consistency` (K=3, 
+chosen after comparing against K=4, which only split existing groups into 
+finer gradations rather than revealing new patterns):
+
+- **Balanced & Consistent** — even performance across stations, fastest 
+  average finish time (~84min)
+- **Runner-Leaning** — relatively stronger running vs station performance, 
+  still highly consistent, second-fastest group (~89min)
+- **Inconsistent** — uneven station performance regardless of run/work 
+  balance, clearly the slowest group (~106min)
+
+Station consistency appears to matter more for overall performance than 
+the run/work balance itself — both fast-finishing groups (Balanced and 
+Runner-Leaning) share low station_consistency, while the slow group is 
+defined primarily by unevenness, not a particular run/station weakness.
+
 ## What's in this repo
 
 ```
