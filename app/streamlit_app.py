@@ -7,9 +7,19 @@ import pandas as pd
 model = joblib.load('model_a_lite.pkl')
 kmeans = joblib.load('kmeans_model.pkl')
 scaler = joblib.load('scaler.pkl')
+all_times = pd.read_csv('all_finish_times.csv')['total_time_secs']
 
-st.title("Hyrox Performance Predictor")
+st.title("🏋️ Hyrox Performance Predictor")
 st.caption("Trained on 90,000+ real Hyrox race results")
+
+st.markdown("""
+This tool estimates your Hyrox finish time and athlete archetype based on a 
+small set of inputs. It uses a simplified version of a larger model — built 
+this way so you don't need detailed per-station splits to try it.
+
+**Note:** predictions are estimates based on patterns in race data, not a 
+guarantee — actual performance depends on many factors not captured here.
+""")
 
 st.header("Tell us about your race (or a hypothetical one)")
 
@@ -21,7 +31,7 @@ with col1:
     gender = st.radio("Gender", ['male', 'female'], horizontal=True)
 
 with col2:
-    total_run_min = st.number_input("Total running time (minutes)", min_value=10, max_value=120, value=45)
+    total_run_min = st.number_input("Total running time (minutes)", min_value=35, max_value=120, value=45)
     total_work_min = st.number_input("Total station time (minutes)", min_value=10, max_value=120, value=38)
 
 fastest_station = st.number_input("Fastest station time (seconds)", min_value=30, max_value=900, value=180)
@@ -42,11 +52,12 @@ if st.button("Predict my Hyrox performance"):
     gender_encoded = 0 if gender == 'male' else 1
 
     input_data = pd.DataFrame(
-        [[age_group_encoded, gender_encoded, run_to_work_ratio, proxy_consistency]],
-        columns=['age_group_encoded', 'gender_encoded', 'run_to_work_ratio', 'proxy_consistency']
+        [[age_group_encoded, gender_encoded, total_run_secs, run_to_work_ratio, proxy_consistency]],
+        columns=['age_group_encoded', 'gender_encoded', 'total_run_secs', 'run_to_work_ratio', 'proxy_consistency']
     )
 
     predicted_secs = model.predict(input_data)[0]
+    percentile = (all_times < predicted_secs).mean() * 100
     pred_min, pred_sec = divmod(int(predicted_secs), 60)
 
     # --- cluster code starts here ---
@@ -71,4 +82,5 @@ if st.button("Predict my Hyrox performance"):
 
     # --- both results displayed at the end, once, in order ---
     st.success(f"Predicted finish time: {pred_min} min {pred_sec} sec")
+    st.write(f"This would put you faster than approximately **{percentile:.0f}%** of athletes in our dataset.")
     st.info(f"**Your archetype: {archetype_names[archetype]}**\n\n{archetype_descriptions[archetype]}")
