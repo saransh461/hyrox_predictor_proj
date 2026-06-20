@@ -41,7 +41,6 @@ if st.button("Predict my Hyrox performance"):
 
     gender_encoded = 0 if gender == 'male' else 1
 
-    # Build the input row - same column order as training
     input_data = pd.DataFrame(
         [[age_group_encoded, gender_encoded, run_to_work_ratio, proxy_consistency]],
         columns=['age_group_encoded', 'gender_encoded', 'run_to_work_ratio', 'proxy_consistency']
@@ -50,4 +49,26 @@ if st.button("Predict my Hyrox performance"):
     predicted_secs = model.predict(input_data)[0]
     pred_min, pred_sec = divmod(int(predicted_secs), 60)
 
+    # --- cluster code starts here ---
+    cluster_input = pd.DataFrame(
+        [[run_to_work_ratio, proxy_consistency]],
+        columns=['run_to_work_ratio', 'station_consistency']
+    )
+    cluster_input_scaled = scaler.transform(cluster_input)
+
+    archetype = kmeans.predict(cluster_input_scaled)[0]
+
+    archetype_names = {
+        0: 'Balanced & Consistent',
+        1: 'Inconsistent (has weak points)',
+        2: 'Runner-Leaning'
+    }
+    archetype_descriptions = {
+        0: "You perform evenly across all stations — no major weak points, which tends to mean faster overall times.",
+        1: "Your station performance varies a lot between exercises — working on your weakest stations could meaningfully improve your time.",
+        2: "You lean toward being stronger on the run than on stations, relative to other athletes."
+    }
+
+    # --- both results displayed at the end, once, in order ---
     st.success(f"Predicted finish time: {pred_min} min {pred_sec} sec")
+    st.info(f"**Your archetype: {archetype_names[archetype]}**\n\n{archetype_descriptions[archetype]}")
