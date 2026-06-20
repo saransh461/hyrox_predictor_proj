@@ -29,6 +29,38 @@ I've been training in the gym for a few years and have recently gotten into Hyro
 - `pacing_slope` — measures whether an athlete slows down over the course of the race (fatigue)
 - `station_consistency` — standard deviation across the 8 station times for each athlete; measures how evenly they perform across all stations vs having major weak points. Strongest engineered feature so far — correlates ~0.71 with total finish time.
 
+## Model A — Explanatory model
+
+Predicts finish time using age, gender, and engineered features (station 
+consistency, pacing slope, run-to-work ratio, transition time). This model 
+uses information only available *after* a race, so it answers "what factors 
+explain performance" rather than predicting a time before racing.
+
+**Baseline: Linear Regression**
+- MAE: 329 seconds (~5.5 minutes), about 6% of average finish time
+- Accuracy is uneven across the field: MAE for the faster half of athletes 
+  is ~90 seconds lower than for the slower half — the model explains 
+  top-finisher performance more reliably than recreational-pace performance, 
+  likely because fast finishers' results are more directly driven by 
+  consistency and pacing, while slower finishers show more variability the 
+  current features don't capture.
+
+Next: comparing against XGBoost to see if a non-linear model closes this gap.
+
+**XGBoost**
+Switching from Linear Regression to XGBoost reduced overall MAE by ~9% (329s → 300s), but the gap in accuracy between faster and slower athletes remained nearly unchanged (~90s in both models). This suggests the limitation isn't model complexity, but missing information — the available features (age, gender, pacing/consistency ratios) explain top-finisher performance well, but don't fully capture what drives variability for recreational-pace athletes. Additional data (e.g., training history, strength benchmarks) would likely be needed to close this gap
+
+**Model B: Pre-race predictor (honest, limited inputs)**
+- Inputs: only age group and gender — the only information realistically 
+  knowable before an athlete has raced
+- MAE: 731 seconds (~12.2 minutes), notably worse than Model A
+- This is an expected and informative result: it quantifies just how much 
+  of Hyrox performance is *not* explained by basic demographics alone, 
+  reinforcing the EDA finding that age and gender have only modest individual 
+  effects. A genuinely useful pre-race predictor would require additional 
+  inputs not present in this dataset — e.g., training history, prior race 
+  times, or strength benchmarks.
+
 ## What's in this repo
 
 ```
