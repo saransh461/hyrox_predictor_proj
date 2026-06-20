@@ -97,7 +97,13 @@ notebooks/
 app/
   streamlit_app.py          (coming soon)
 ```
+## Model A-lite (used in the deployed app)
 
+The full Model A (MAE ~300s) requires inputs only available with detailed 
+per-station splits — impractical for a quick interactive app. Built a 
+simplified version using only 4 app-friendly inputs (age, gender, 
+run-to-work ratio, and a fast/slow station proxy), trading some accuracy 
+(MAE 462s, ~+54%) for a dramatically simpler input experience (6 fields vs 16).
 ## How to run this
 
 ```bash
