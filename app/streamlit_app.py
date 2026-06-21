@@ -44,7 +44,7 @@ slowest_station = st.number_input("Slowest station time (seconds)", min_value=30
 
 if st.button("Predict my Hyrox performance"):
 
-    # Convert inputs to match training format
+    # Convert inputs to match training
     total_run_secs = total_run_min * 60
     total_work_secs = total_work_min * 60
 
